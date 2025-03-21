@@ -6,9 +6,9 @@ import "./seminar.css";
 import { liff } from '@line/liff';
 
 export default function Home() {
-  // 実際のLINE連携時には以下の値を設定します
-  const LIFF_ID = "2007097473-op9LrBBJ";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxLlNDnxyeuQxM4rYrz_LTWlOYgz2-IYh7A005heP6eOjrx7GJKEHqdNgXRCE8QRxiX/exec";
+  // 環境変数から値を取得します
+  const LIFF_ID = process.env.NEXT_PUBLIC_LIFF_ID || "";
+  const GAS_URL = process.env.NEXT_PUBLIC_GAS_URL || "";
   
   // デモモード（true: デモモード、false: 実際のLINE連携）
   const isDemoMode = false;
