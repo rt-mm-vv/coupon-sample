@@ -11,7 +11,7 @@ export default function Home() {
   const GAS_URL = process.env.NEXT_PUBLIC_GAS_URL || "";
   
   // デモモード（true: デモモード、false: 実際のLINE連携）
-  const isDemoMode =  false;
+  const isDemoMode = process.env.NEXT_PUBLIC_IS_DEMO_MODE === 'true';
 
   const ageOptions = ['10代', '20代', '30代', '40代', '50代', '60代以上'];
   const genderOptions = ['男性', '女性', 'その他'];
