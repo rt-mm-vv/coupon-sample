@@ -25,7 +25,6 @@ export default function Home() {
   const [name, setName] = useState(isDemoMode ? 'デモユーザー' : '');
   const [userId, setUserId] = useState(isDemoMode ? 'demo-user-id' : '');
   const [age, setAge] = useState(ageOptions[0]);
-  const [date, setDate] = useState('');
   const [gender, setGender] = useState(genderOptions[0]);
   const [interest, setInterest] = useState(interestOptions[0]);
   const [timeframe, setTimeframe] = useState(timeframeOptions[0]);
@@ -58,10 +57,9 @@ export default function Home() {
     };
 
     initLiff();
-  }, [isDemoMode]);
+  }, [isDemoMode, LIFF_ID]);
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setAge(e.target.value);
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => setDate(e.target.value);
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => setGender(e.target.value);
   const handleInterestChange = (e: React.ChangeEvent<HTMLSelectElement>) => setInterest(e.target.value);
   const handleTimeframeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setTimeframe(e.target.value);
@@ -74,17 +72,11 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (date.length === 0) {
-      alert('参加希望日を選択してください。');
-      return;
-    }
-
     // 送信データの準備
     const submitData = { 
       userId, 
       name, 
       age, 
-      date, 
       gender, 
       interest, 
       timeframe, 
