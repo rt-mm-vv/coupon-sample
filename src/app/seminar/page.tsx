@@ -1,21 +1,20 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import styles from "./page.module.css";
-import "./seminar.css";
+import '../seminar.css';
 import { liff } from '@line/liff';
 
-export default function Home() {
+export default function SeminarPage() {
   // 実際のLINE連携時には以下の値を設定します
-  const LIFF_ID = "2007097473-op9LrBBJ";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxLlNDnxyeuQxM4rYrz_LTWlOYgz2-IYh7A005heP6eOjrx7GJKEHqdNgXRCE8QRxiX/exec";
+  const LIFF_ID = "【LIFF ID】";
+  const GAS_URL = "【GASデプロイURL】";
   
   // デモモード（true: デモモード、false: 実際のLINE連携）
-  const isDemoMode = false;
+  const isDemoMode = true;
 
   const ageOptions = ['10代', '20代', '30代', '40代', '50代', '60代以上'];
   const genderOptions = ['男性', '女性', 'その他'];
-  const courseOptions = ['賃貸', '持ち家', 'その他'];
+  const courseOptions = ['Aコース(500円)', 'Bコース(1,000円)', 'Cコース(1,500円)'];
 
   const [name, setName] = useState(isDemoMode ? 'デモユーザー' : '');
   const [userId, setUserId] = useState(isDemoMode ? 'demo-user-id' : '');
@@ -101,62 +100,37 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>まっしゅるブラザーズセミナー</h1>
-        <div id="profile">お名前： {name}</div>
-        <div id="form-container">
-          <form id="survey-form" onSubmit={handleSubmit}>
-            <label htmlFor="date">参加希望日: </label>
-            <input type="date" id="date" name="date" value={date} onChange={handleDateChange} /><br />
-            <label htmlFor="age">年代: </label>
-            <select id="age" name="age" value={age} onChange={handleAgeChange}>
-              {ageOptions.map((ageOption, index) =>
-                <option value={ageOption} key={index}>{ageOption}</option>
-              )}
-            </select><br />
-            <label>性別: </label>
-            {genderOptions.map((option, index) => (
-              <React.Fragment key={index}>
-                <input type="radio" id={option} name="gender" value={option} checked={gender === option} onChange={handleGenderChange} />
-                <label htmlFor={option} className="gender-label">{option}</label>
-              </React.Fragment>
-            ))}
-            <label htmlFor="course">コース選択: </label>
-            <select id="course" name="course" value={course} onChange={handleCourseChange}>
-              {courseOptions.map((courseOption, index) =>
-                <option value={courseOption} key={index}>{courseOption}</option>
-              )}
-            </select><br />
-            <label htmlFor="text">その他: </label>
-            <input type="text" id="text" name="text" value={otherText} onChange={handleOtherTextChange} /><br />
-            <button id="submit" type="submit">送信</button>
-          </form>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <>
+      <h1>まっしゅるブラザーズセミナー</h1>
+      <div id="profile">お名前： {name}</div>
+      <div id="form-container">
+        <form id="survey-form" onSubmit={handleSubmit}>
+          <label htmlFor="date">参加希望日: </label>
+          <input type="date" id="date" name="date" value={date} onChange={handleDateChange} /><br />
+          <label htmlFor="age">年代: </label>
+          <select id="age" name="age" value={age} onChange={handleAgeChange}>
+            {ageOptions.map((ageOption, index) =>
+              <option value={ageOption} key={index}>{ageOption}</option>
+            )}
+          </select><br />
+          <label>性別: </label>
+          {genderOptions.map((option, index) => (
+            <React.Fragment key={index}>
+              <input type="radio" id={option} name="gender" value={option} checked={gender === option} onChange={handleGenderChange} />
+              <label htmlFor={option} className="gender-label">{option}</label>
+            </React.Fragment>
+          ))}
+          <label htmlFor="course">コース選択: </label>
+          <select id="course" name="course" value={course} onChange={handleCourseChange}>
+            {courseOptions.map((courseOption, index) =>
+              <option value={courseOption} key={index}>{courseOption}</option>
+            )}
+          </select><br />
+          <label htmlFor="text">その他: </label>
+          <input type="text" id="text" name="text" value={otherText} onChange={handleOtherTextChange} /><br />
+          <button id="submit" type="submit">送信</button>
+        </form>
+      </div>
+    </>
   );
 }
