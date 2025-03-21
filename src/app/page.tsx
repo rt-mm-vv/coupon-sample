@@ -34,6 +34,7 @@ export default function Home() {
   const [source, setSource] = useState(sourceOptions[0]);
   const [otherText, setOtherText] = useState('');
   const [isLiffInitialized, setIsLiffInitialized] = useState(isDemoMode);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // デモモードの場合はLIFF初期化をスキップ
@@ -71,6 +72,7 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
     // 送信データの準備
     const submitData = { 
@@ -91,6 +93,7 @@ export default function Home() {
     if (isDemoMode) {
       // デモモードの場合は送信をシミュレート
       setTimeout(() => {
+        setIsLoading(false);
         alert('デモモード: 送信が完了しました。');
         console.log('デモモード: 送信完了', submitData);
       }, 1000);
@@ -101,6 +104,7 @@ export default function Home() {
         body: JSON.stringify(submitData),
       })
         .then((response) => {
+          setIsLoading(false);
           if (response.ok) {
             alert('送信しました。');
             if (isLiffInitialized) {
@@ -115,6 +119,7 @@ export default function Home() {
           console.log(json);
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error('Error:', error);
         });
     }
@@ -214,7 +219,13 @@ export default function Home() {
               <label htmlFor="text">その他ご要望: </label>
               <input type="text" id="text" name="text" value={otherText} onChange={handleOtherTextChange} placeholder="ご自由にお書きください" />
             </div>
-            <button id="submit" type="submit">送信</button>
+            <button id="submit" type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <span className="loading-spinner">送信中...</span>
+              ) : (
+                '送信'
+              )}
+            </button>
           </form>
         </div>
       </main>
