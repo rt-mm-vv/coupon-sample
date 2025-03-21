@@ -11,18 +11,28 @@ export default function Home() {
   const GAS_URL = process.env.NEXT_PUBLIC_GAS_URL || "";
   
   // デモモード（true: デモモード、false: 実際のLINE連携）
-  const isDemoMode = false;
+  const isDemoMode = true;
 
   const ageOptions = ['10代', '20代', '30代', '40代', '50代', '60代以上'];
   const genderOptions = ['男性', '女性', 'その他'];
-  const courseOptions = ['賃貸', '持ち家', 'その他'];
+  const interestOptions = ['新築', 'リフォーム', '土地探し', '資金計画', 'その他'];
+  const timeframeOptions = ['半年以内', '1年以内', '2年以内', '3年以内', '未定'];
+  const familyOptions = ['単身', '夫婦のみ', '子供あり', '親との同居', 'その他'];
+  const houseTypeOptions = ['一戸建て', 'マンション', 'タウンハウス', 'その他'];
+  const budgetOptions = ['2000万円以下', '2000-3000万円', '3000-4000万円', '4000-5000万円', '5000万円以上'];
+  const sourceOptions = ['インターネット', 'チラシ', '知人の紹介', 'SNS', 'その他'];
 
   const [name, setName] = useState(isDemoMode ? 'デモユーザー' : '');
   const [userId, setUserId] = useState(isDemoMode ? 'demo-user-id' : '');
   const [age, setAge] = useState(ageOptions[0]);
   const [date, setDate] = useState('');
   const [gender, setGender] = useState(genderOptions[0]);
-  const [course, setCourse] = useState(courseOptions[0]);
+  const [interest, setInterest] = useState(interestOptions[0]);
+  const [timeframe, setTimeframe] = useState(timeframeOptions[0]);
+  const [family, setFamily] = useState(familyOptions[0]);
+  const [houseType, setHouseType] = useState(houseTypeOptions[0]);
+  const [budget, setBudget] = useState(budgetOptions[0]);
+  const [source, setSource] = useState(sourceOptions[0]);
   const [otherText, setOtherText] = useState('');
   const [isLiffInitialized, setIsLiffInitialized] = useState(isDemoMode);
 
@@ -53,7 +63,12 @@ export default function Home() {
   const handleAgeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setAge(e.target.value);
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => setDate(e.target.value);
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => setGender(e.target.value);
-  const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => setCourse(e.target.value);
+  const handleInterestChange = (e: React.ChangeEvent<HTMLSelectElement>) => setInterest(e.target.value);
+  const handleTimeframeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setTimeframe(e.target.value);
+  const handleFamilyChange = (e: React.ChangeEvent<HTMLSelectElement>) => setFamily(e.target.value);
+  const handleHouseTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setHouseType(e.target.value);
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement>) => setBudget(e.target.value);
+  const handleSourceChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSource(e.target.value);
   const handleOtherTextChange = (e: React.ChangeEvent<HTMLInputElement>) => setOtherText(e.target.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +80,20 @@ export default function Home() {
     }
 
     // 送信データの準備
-    const submitData = { userId, name, age, date, gender, course, otherText };
+    const submitData = { 
+      userId, 
+      name, 
+      age, 
+      date, 
+      gender, 
+      interest, 
+      timeframe, 
+      family, 
+      houseType, 
+      budget, 
+      source, 
+      otherText 
+    };
     console.log('送信データ:', submitData);
 
     if (isDemoMode) {
@@ -103,60 +131,101 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>まっしゅるブラザーズセミナー</h1>
-        <div id="profile">お名前： {name}</div>
+        <h1>住宅展示会アンケート</h1>
+        <div id="profile">お名前： <span className="user-name">{name}</span></div>
         <div id="form-container">
           <form id="survey-form" onSubmit={handleSubmit}>
-            <label htmlFor="date">参加希望日: </label>
-            <input type="date" id="date" name="date" value={date} onChange={handleDateChange} /><br />
-            <label htmlFor="age">年代: </label>
-            <select id="age" name="age" value={age} onChange={handleAgeChange}>
-              {ageOptions.map((ageOption, index) =>
-                <option value={ageOption} key={index}>{ageOption}</option>
-              )}
-            </select><br />
-            <label>性別: </label>
-            {genderOptions.map((option, index) => (
-              <React.Fragment key={index}>
-                <input type="radio" id={option} name="gender" value={option} checked={gender === option} onChange={handleGenderChange} />
-                <label htmlFor={option} className="gender-label">{option}</label>
-              </React.Fragment>
-            ))}
-            <label htmlFor="course">コース選択: </label>
-            <select id="course" name="course" value={course} onChange={handleCourseChange}>
-              {courseOptions.map((courseOption, index) =>
-                <option value={courseOption} key={index}>{courseOption}</option>
-              )}
-            </select><br />
-            <label htmlFor="text">その他: </label>
-            <input type="text" id="text" name="text" value={otherText} onChange={handleOtherTextChange} /><br />
+            
+            <div className="form-group">
+              <label htmlFor="age">年代: </label>
+              <select id="age" name="age" value={age} onChange={handleAgeChange}>
+                {ageOptions.map((ageOption, index) =>
+                  <option value={ageOption} key={index}>{ageOption}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label>性別: </label>
+              <div className="radio-group">
+                {genderOptions.map((option, index) => (
+                  <div key={index}>
+                    <input 
+                      type="radio" 
+                      id={option} 
+                      name="gender" 
+                      value={option} 
+                      checked={gender === option} 
+                      onChange={handleGenderChange} 
+                    />
+                    <label htmlFor={option} className="gender-label">{option}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="interest">関心のある項目: </label>
+              <select id="interest" name="interest" value={interest} onChange={handleInterestChange}>
+                {interestOptions.map((option, index) =>
+                  <option value={option} key={index}>{option}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="timeframe">住宅購入予定時期: </label>
+              <select id="timeframe" name="timeframe" value={timeframe} onChange={handleTimeframeChange}>
+                {timeframeOptions.map((option, index) =>
+                  <option value={option} key={index}>{option}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="family">家族構成: </label>
+              <select id="family" name="family" value={family} onChange={handleFamilyChange}>
+                {familyOptions.map((option, index) =>
+                  <option value={option} key={index}>{option}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="houseType">希望する住宅の種類: </label>
+              <select id="houseType" name="houseType" value={houseType} onChange={handleHouseTypeChange}>
+                {houseTypeOptions.map((option, index) =>
+                  <option value={option} key={index}>{option}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="budget">予算範囲: </label>
+              <select id="budget" name="budget" value={budget} onChange={handleBudgetChange}>
+                {budgetOptions.map((option, index) =>
+                  <option value={option} key={index}>{option}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="source">住宅展示会を知ったきっかけ: </label>
+              <select id="source" name="source" value={source} onChange={handleSourceChange}>
+                {sourceOptions.map((option, index) =>
+                  <option value={option} key={index}>{option}</option>
+                )}
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="text">その他ご要望: </label>
+              <input type="text" id="text" name="text" value={otherText} onChange={handleOtherTextChange} placeholder="ご自由にお書きください" />
+            </div>
             <button id="submit" type="submit">送信</button>
           </form>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
